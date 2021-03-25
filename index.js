@@ -2,7 +2,7 @@
 //= require ./src/exampleService.js
 //= require ./src/exampleSettings.js
 
-ngapp.run(function(exampleService, settingsService) {
+ngapp.run(function (exampleService, settingsService) {
     exampleService.helloWorld();
 
     settingsService.registerSettings({
