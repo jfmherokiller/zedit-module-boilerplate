@@ -1,6 +1,7 @@
 /* global ngapp, xelib, modulePath */
 import {Executor, Helpers, ModuleInfo, Patcher, ProcessBlock} from "@zedit/upf";
-let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
+//let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
+let ReplaceReal = xelib.GetRecord(0,0x0009FAFA)
 class InsectRemovalInfo implements ModuleInfo {
     author = "NoahGooder";
     name = "InsectsRemoval"
@@ -21,8 +22,13 @@ function filterFunction(RecordPart) {
 }
 
 function patchRecordProcessing(RecordPart, HelperParts:Helpers) {
-    xelib.SetValue(RecordPart,"TPLT",ReplacementPart)
-    xelib.SetFlag(RecordPart,"ACBS - Configuration\\Template Flags","Use Model/Animation",true)
+    try {
+        xelib.SetLinksTo(RecordPart,ReplaceReal,"TPLT");
+        //xelib.SetValue(RecordPart,"TPLT",ReplacementPart);
+        xelib.SetFlag(RecordPart,"ACBS - Configuration\\Template Flags","Use Model/Animation",true);
+    } catch (e) {
+        HelperParts.logMessage(e);
+    }
 }
 
 class PatchInsectoids implements Executor<any, any>{
@@ -32,9 +38,9 @@ class PatchInsectoids implements Executor<any, any>{
 }
 class InsectRemoval implements Patcher<any, any>{
 
-    gameModes= [xelib.gameModes.gmFNV]
+    gameModes= [xelib.gmFNV]
     info: ModuleInfo = new InsectRemovalInfo;
-    settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} }
+    settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {},controler:(ass) => {} }
     execute = new PatchInsectoids
 
 }

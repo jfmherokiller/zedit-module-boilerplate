@@ -1,4 +1,5 @@
-let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]";
+//let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
+let ReplaceReal = xelib.GetRecord(0, 0x0009FAFA);
 class InsectRemovalInfo {
     constructor() {
         this.author = "NoahGooder";
@@ -18,8 +19,14 @@ function filterFunction(RecordPart) {
     return xelib.GetValue(RecordPart, "DATA\\Type") === "Mutated Insect";
 }
 function patchRecordProcessing(RecordPart, HelperParts) {
-    xelib.SetValue(RecordPart, "TPLT", ReplacementPart);
-    xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
+    try {
+        xelib.SetLinksTo(RecordPart, ReplaceReal, "TPLT");
+        //xelib.SetValue(RecordPart,"TPLT",ReplacementPart);
+        xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
+    }
+    catch (e) {
+        HelperParts.logMessage(e);
+    }
 }
 class PatchInsectoids {
     constructor() {
@@ -28,9 +35,9 @@ class PatchInsectoids {
 }
 class InsectRemoval {
     constructor() {
-        this.gameModes = [xelib.gameModes.gmFNV];
+        this.gameModes = [xelib.gmFNV];
         this.info = new InsectRemovalInfo;
-        this.settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} };
+        this.settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {}, controler: (ass) => { } };
         this.execute = new PatchInsectoids;
     }
 }
