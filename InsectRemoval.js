@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]";
-var InsectRemovalInfo = /** @class */ (function () {
-    function InsectRemovalInfo() {
+let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]";
+class InsectRemovalInfo {
+    constructor() {
         this.author = "NoahGooder";
         this.name = "InsectsRemoval";
         this.id = "InsectRemoval-Noah-1";
@@ -11,9 +9,8 @@ var InsectRemovalInfo = /** @class */ (function () {
         this.updated = "6/11/2021";
         this.description = "Replace Insects with other parts";
     }
-    return InsectRemovalInfo;
-}());
-var myProcessBlock = {
+}
+let myProcessBlock = {
     load: { signature: "CREA", overrides: true, filter: filterFunction },
     patch: patchRecordProcessing
 };
@@ -24,18 +21,19 @@ function patchRecordProcessing(RecordPart, HelperParts) {
     xelib.SetValue(RecordPart, "TPLT", ReplacementPart);
     xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
 }
-var PatchInsectoids = /** @class */ (function () {
-    function PatchInsectoids() {
+class PatchInsectoids {
+    constructor() {
         this.process = [myProcessBlock];
     }
-    return PatchInsectoids;
-}());
-var InsectRemoval = /** @class */ (function () {
-    function InsectRemoval() {
+}
+class InsectRemoval {
+    constructor() {
         this.gameModes = [xelib.gameModes.gmFNV];
         this.info = new InsectRemovalInfo;
+        this.settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} };
         this.execute = new PatchInsectoids;
     }
-    return InsectRemoval;
-}());
+}
+registerPatcher(new InsectRemoval);
+export {};
 //# sourceMappingURL=InsectRemoval.js.map

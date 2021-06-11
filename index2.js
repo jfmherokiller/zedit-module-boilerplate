@@ -1,15 +1,13 @@
-"use strict";
 /* global ngapp, xelib, modulePath */
 //= require ./src/exampleService.js
 //= require ./src/exampleSettings.js
-Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-ignore
 ngapp.run(function (exampleService, settingsService) {
     exampleService.helloWorld();
     settingsService.registerSettings({
         label: 'Example Module',
         // @ts-ignore
-        templateUrl: modulePath + "/partials/exampleSettings.html",
+        templateUrl: `${modulePath}/partials/exampleSettings.html`,
         controller: 'exampleSettingsController',
         defaultSettings: {
             exampleModule: {
@@ -48,8 +46,8 @@ function GetGridCell(iElement) {
 function GetGridCellString(iElement) {
     if (xelib.Signature(iElement) !== "CELL")
         return;
-    var grid = GetGridCell(iElement);
-    var Result = grid.x + ',' + grid.y;
+    let grid = GetGridCell(iElement);
+    let Result = grid.x + ',' + grid.y;
     if (Result === "0,0") {
         return '';
     }
@@ -57,4 +55,5 @@ function GetGridCellString(iElement) {
         return "Persistent";
     }
 }
+export {};
 //# sourceMappingURL=index2.js.map

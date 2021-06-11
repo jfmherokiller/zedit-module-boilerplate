@@ -9,7 +9,6 @@ class InsectRemovalInfo implements ModuleInfo {
     released = "6/11/2021"
     updated = "6/11/2021"
     description = "Replace Insects with other parts"
-
 }
 
 let myProcessBlock:ProcessBlock<any, any> = {
@@ -35,7 +34,8 @@ class InsectRemoval implements Patcher<any, any>{
 
     gameModes= [xelib.gameModes.gmFNV]
     info: ModuleInfo = new InsectRemovalInfo;
-    settings: { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} }
+    settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} }
     execute = new PatchInsectoids
 
 }
+registerPatcher(new InsectRemoval);
