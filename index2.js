@@ -1,29 +1,15 @@
+"use strict";
 /* global ngapp, xelib, modulePath */
-ngapp.service('exampleService', function() {
-    this.helloWorld = function() {
-        console.log('Hello World!');
-    };
-});
-
-// this code makes the exampleService accessible from
-// zEdit scripts and UPF patchers
-ngapp.run(function(exampleService, interApiService) {
-    interApiService.register({
-        api: { exampleService }
-    });
-});
-ngapp.controller('exampleSettingsController', function($scope) {
-    $scope.printMessage = function() {
-        console.log($scope.settings.exampleModule.message);
-    };
-});
-
+//= require ./src/exampleService.js
+//= require ./src/exampleSettings.js
+Object.defineProperty(exports, "__esModule", { value: true });
+// @ts-ignore
 ngapp.run(function (exampleService, settingsService) {
     exampleService.helloWorld();
-
     settingsService.registerSettings({
         label: 'Example Module',
-        templateUrl: `${modulePath}/partials/exampleSettings.html`,
+        // @ts-ignore
+        templateUrl: modulePath + "/partials/exampleSettings.html",
         controller: 'exampleSettingsController',
         defaultSettings: {
             exampleModule: {
@@ -36,11 +22,8 @@ ngapp.run(function (exampleService, settingsService) {
 //begin
 //Result := RecordByFormID(FileByLoadOrder(iFormId shr 24), iFormId, true);
 //end;
-/**
- * @param {number} iFormId
- */
 function GetRecordByCardinal(iFormId) {
-     return xelib.GetRecord(xelib.FileByLoadOrder(iFormId >> 24), iFormId)
+    return xelib.GetRecord(xelib.FileByLoadOrder(iFormId >> 24), iFormId);
 }
 // function GetGridCellString(iElement: IInterface): string;
 // var
@@ -59,6 +42,19 @@ function GetRecordByCardinal(iFormId) {
 // if GetIsPersistent(iElement) then //Kind of time consuming check
 // Result := 'Persistent';
 // end;
-function GetGridCellString(iElement) {
-    if(xelib.Signature(iElement) !== "CELL") return;
+function GetGridCell(iElement) {
+    return { "x": xelib.GetFloatValue(iElement, "XCLC\\X"), "y": xelib.GetFloatValue(iElement, "XCLC\\Y") };
 }
+function GetGridCellString(iElement) {
+    if (xelib.Signature(iElement) !== "CELL")
+        return;
+    var grid = GetGridCell(iElement);
+    var Result = grid.x + ',' + grid.y;
+    if (Result === "0,0") {
+        return '';
+    }
+    if (xelib.GetFlag(iElement, "", "Persistent")) {
+        return "Persistent";
+    }
+}
+//# sourceMappingURL=index2.js.map

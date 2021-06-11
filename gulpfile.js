@@ -16,6 +16,10 @@ gulp.task('build', gulp.series('clean', function() {
             .pipe(include())
             .on('error', console.log)
             .pipe(gulp.dest('dist')),
+        gulp.src('InsectRemoval.js')
+            .pipe(include())
+            .on('error', console.log)
+            .pipe(gulp.dest('dist')),
 
         gulp.src('partials/*.html')
             .pipe(gulp.dest('dist/partials')),
@@ -35,7 +39,7 @@ gulp.task('build', gulp.series('clean', function() {
 }));
 
 gulp.task('release', function() {
-    let moduleInfo = JSON.parse(fs.readFileSync('module.json')),
+    let moduleInfo = JSON.parse(fs.readFileSync('module.json',{encoding:"UTF8"})),
         moduleId = moduleInfo.id,
         moduleVersion = moduleInfo.version,
         zipFileName = `${moduleId}-v${moduleVersion}.zip`;

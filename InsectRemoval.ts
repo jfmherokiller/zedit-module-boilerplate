@@ -1,7 +1,6 @@
 /* global ngapp, xelib, modulePath */
 import {Executor, Helpers, ModuleInfo, Patcher, ProcessBlock} from "@zedit/upf";
-import {GameMode, RecordHandle} from "xelib";
-
+let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
 class InsectRemovalInfo implements ModuleInfo {
     author = "NoahGooder";
     name = "InsectsRemoval"
@@ -18,12 +17,13 @@ let myProcessBlock:ProcessBlock<any, any> = {
     patch:patchRecordProcessing
 };
 
-function filterFunction(RecordPart:RecordHandle) {
+function filterFunction(RecordPart) {
     return xelib.GetValue(RecordPart, "DATA\\Type") === "Mutated Insect"
 }
 
-function patchRecordProcessing(RecordPart:RecordHandle, HelperParts:Helpers) {
-
+function patchRecordProcessing(RecordPart, HelperParts:Helpers) {
+    xelib.SetValue(RecordPart,"TPLT",ReplacementPart)
+    xelib.SetFlag(RecordPart,"ACBS - Configuration\\Template Flags","Use Model/Animation",true)
 }
 
 class PatchInsectoids implements Executor<any, any>{
@@ -33,7 +33,7 @@ class PatchInsectoids implements Executor<any, any>{
 }
 class InsectRemoval implements Patcher<any, any>{
 
-    gameModes: GameMode[] = [GameMode.gmFNV]
+    gameModes= [xelib.gameModes.gmFNV]
     info: ModuleInfo = new InsectRemovalInfo;
     settings: { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} }
     execute = new PatchInsectoids
