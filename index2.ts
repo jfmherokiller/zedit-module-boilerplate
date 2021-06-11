@@ -2,11 +2,15 @@
 //= require ./src/exampleService.js
 //= require ./src/exampleSettings.js
 
+
+import {Handle} from "xelib";
+// @ts-ignore
 ngapp.run(function (exampleService, settingsService) {
     exampleService.helloWorld();
 
     settingsService.registerSettings({
         label: 'Example Module',
+        // @ts-ignore
         templateUrl: `${modulePath}/partials/exampleSettings.html`,
         controller: 'exampleSettingsController',
         defaultSettings: {
@@ -20,11 +24,9 @@ ngapp.run(function (exampleService, settingsService) {
 //begin
 //Result := RecordByFormID(FileByLoadOrder(iFormId shr 24), iFormId, true);
 //end;
-/**
- * @param {number} iFormId
- */
-function GetRecordByCardinal(iFormId) {
-     return xelib.GetRecord(xelib.FileByLoadOrder(iFormId >> 24), iFormId)
+
+function GetRecordByCardinal(iFormId: number):Handle {
+    return xelib.GetRecord(xelib.FileByLoadOrder(iFormId >> 24), iFormId)
 }
 // function GetGridCellString(iElement: IInterface): string;
 // var
@@ -43,6 +45,17 @@ function GetRecordByCardinal(iFormId) {
 // if GetIsPersistent(iElement) then //Kind of time consuming check
 // Result := 'Persistent';
 // end;
-function GetGridCellString(iElement) {
+function GetGridCell(iElement: Handle) {
+    return {"x":xelib.GetFloatValue(iElement,"XCLC\\X"),"y":xelib.GetFloatValue(iElement,"XCLC\\Y")}
+}
+function GetGridCellString(iElement:Handle) {
     if(xelib.Signature(iElement) !== "CELL") return;
+    let grid = GetGridCell(iElement);
+    let Result = grid.x +','+ grid.y;
+    if(Result === "0,0") {
+        return '';
+    }
+    if (xelib.GetFlag(iElement,"","Persistent")) {
+        return "Persistent";
+    }
 }
