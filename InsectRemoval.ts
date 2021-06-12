@@ -22,14 +22,16 @@ let myProcessBlock: ProcessBlock<any, any> = {
 
 function filterFunction(RecordPart) {
     let MutatedInsectCheck = xelib.GetValue(RecordPart, "DATA - \\Type") === "Mutated Insect";
-    let InventoryFix = xelib.GetFlag(RecordPart,"ACBS - Configuration\\Template Flags","Use Inventory")
-    return MutatedInsectCheck && !InventoryFix
+    let ForceBaseRecords = xelib.GetEnabledFlags(RecordPart,"ACBS - Configuration\\Template Flags").join("") === "";
+    return MutatedInsectCheck && ForceBaseRecords
 }
 
 function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
     try {
+        xelib.AddElementValue(RecordPart,"TPLT","")
         //replace template with ghoul to make use of the model/animation
         xelib.SetLinksTo(RecordPart, ReplaceReal, "TPLT");
+        //use combat just in case
         xelib.SetLinksTo(RecordPart,ReplaceCombat,"ZNAM");
         //xelib.SetValue(RecordPart,"TPLT",ReplacementPart); this code works but will quickly throw errors
         xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
