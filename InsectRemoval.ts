@@ -24,7 +24,7 @@ function filterFunction(RecordPart) {
 function patchRecordProcessing(RecordPart, HelperParts:Helpers) {
     try {
         xelib.SetLinksTo(RecordPart,ReplaceReal,"TPLT");
-        //xelib.SetValue(RecordPart,"TPLT",ReplacementPart);
+        //xelib.SetValue(RecordPart,"TPLT",ReplacementPart); this code works but will quickly throw errors
         xelib.SetFlag(RecordPart,"ACBS - Configuration\\Template Flags","Use Model/Animation",true);
     } catch (e) {
         HelperParts.logMessage(e);
