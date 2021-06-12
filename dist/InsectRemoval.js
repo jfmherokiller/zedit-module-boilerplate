@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]";
-var InsectRemovalInfo = /** @class */ (function () {
-    function InsectRemovalInfo() {
+//let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
+let ReplaceReal = xelib.GetRecord(0, 0x0009FAFA);
+class InsectRemovalInfo {
+    constructor() {
         this.author = "NoahGooder";
         this.name = "InsectsRemoval";
         this.id = "InsectRemoval-Noah-1";
@@ -11,9 +12,8 @@ var InsectRemovalInfo = /** @class */ (function () {
         this.updated = "6/11/2021";
         this.description = "Replace Insects with other parts";
     }
-    return InsectRemovalInfo;
-}());
-var myProcessBlock = {
+}
+let myProcessBlock = {
     load: { signature: "CREA", overrides: true, filter: filterFunction },
     patch: patchRecordProcessing
 };
@@ -21,21 +21,27 @@ function filterFunction(RecordPart) {
     return xelib.GetValue(RecordPart, "DATA\\Type") === "Mutated Insect";
 }
 function patchRecordProcessing(RecordPart, HelperParts) {
-    xelib.SetValue(RecordPart, "TPLT", ReplacementPart);
-    xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
+    try {
+        xelib.SetLinksTo(RecordPart, ReplaceReal, "TPLT");
+        //xelib.SetValue(RecordPart,"TPLT",ReplacementPart);
+        xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
+    }
+    catch (e) {
+        HelperParts.logMessage(e);
+    }
 }
-var PatchInsectoids = /** @class */ (function () {
-    function PatchInsectoids() {
+class PatchInsectoids {
+    constructor() {
         this.process = [myProcessBlock];
     }
-    return PatchInsectoids;
-}());
-var InsectRemoval = /** @class */ (function () {
-    function InsectRemoval() {
-        this.gameModes = [xelib.gameModes.gmFNV];
+}
+class InsectRemoval {
+    constructor() {
+        this.gameModes = [xelib.gmFNV];
         this.info = new InsectRemovalInfo;
+        this.settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {}, controler: (ass) => { } };
         this.execute = new PatchInsectoids;
     }
-    return InsectRemoval;
-}());
+}
+registerPatcher(new InsectRemoval);
 //# sourceMappingURL=InsectRemoval.js.map

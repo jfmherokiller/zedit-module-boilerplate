@@ -1,6 +1,8 @@
+"use strict";
 /* global ngapp, xelib, modulePath */
 //= require ./src/exampleService.js
 //= require ./src/exampleSettings.js
+Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-ignore
 ngapp.run(function (exampleService, settingsService) {
     exampleService.helloWorld();
@@ -55,5 +57,4 @@ function GetGridCellString(iElement) {
         return "Persistent";
     }
 }
-export {};
 //# sourceMappingURL=index2.js.map

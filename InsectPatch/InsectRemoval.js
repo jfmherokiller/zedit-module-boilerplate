@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 //let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
 let ReplaceReal = xelib.GetRecord(0, 0x0009FAFA);
 class InsectRemovalInfo {
@@ -44,4 +42,4 @@ class InsectRemoval {
     }
 }
 registerPatcher(new InsectRemoval);
-//# sourceMappingURL=InsectRemoval.js.map
+

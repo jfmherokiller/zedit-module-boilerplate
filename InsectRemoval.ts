@@ -44,4 +44,5 @@ class InsectRemoval implements Patcher<any, any>{
     execute = new PatchInsectoids
 
 }
+
 registerPatcher(new InsectRemoval);
