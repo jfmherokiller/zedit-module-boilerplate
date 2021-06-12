@@ -1,8 +1,10 @@
 //let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
-let ReplaceReal = xelib.GetRecord(0, 0x0009FAFA);
+//get the ghoul record
+let ReplaceReal = null;
+let ReplaceCombat = null;
 class InsectRemovalInfo {
     constructor() {
-        this.author = "NoahGooder";
+        this.author = "Noah Gooder";
         this.name = "InsectsRemoval";
         this.id = "InsectRemoval-Noah-1";
         this.version = "1.0";
@@ -12,16 +14,18 @@ class InsectRemovalInfo {
     }
 }
 let myProcessBlock = {
-    load: { signature: "CREA", overrides: true, filter: filterFunction },
+    load: { signature: "CREA", overrides: false, filter: filterFunction },
     patch: patchRecordProcessing
 };
 function filterFunction(RecordPart) {
-    return xelib.GetValue(RecordPart, "DATA\\Type") === "Mutated Insect";
+    return xelib.GetValue(RecordPart, "DATA - \\Type") === "Mutated Insect";
 }
 function patchRecordProcessing(RecordPart, HelperParts) {
     try {
+        //replace template with ghoul to make use of the model/animation
         xelib.SetLinksTo(RecordPart, ReplaceReal, "TPLT");
-        //xelib.SetValue(RecordPart,"TPLT",ReplacementPart);
+        xelib.SetLinksTo(RecordPart, ReplaceCombat, "ZNAM");
+        //xelib.SetValue(RecordPart,"TPLT",ReplacementPart); this code works but will quickly throw errors
         xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
     }
     catch (e) {
@@ -30,6 +34,10 @@ function patchRecordProcessing(RecordPart, HelperParts) {
 }
 class PatchInsectoids {
     constructor() {
+        this.initialize = (a, b) => {
+            ReplaceReal = xelib.GetRecord(0, 0x0009FAFA);
+            ReplaceCombat = xelib.GetRecord(0, 0x0003A36F);
+        };
         this.process = [myProcessBlock];
     }
 }
@@ -37,7 +45,7 @@ class InsectRemoval {
     constructor() {
         this.gameModes = [xelib.gmFNV];
         this.info = new InsectRemovalInfo;
-        this.settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {}, controler: (ass) => { } };
+        this.settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} };
         this.execute = new PatchInsectoids;
     }
 }

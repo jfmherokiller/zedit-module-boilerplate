@@ -2,8 +2,8 @@
 import {Executor, Helpers, ModuleInfo, Patcher, ProcessBlock} from "@zedit/upf";
 //let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
 //get the ghoul record
-let ReplaceReal = xelib.GetRecord(0, 0x0009FAFA)
-let ReplaceCombat = xelib.GetRecord(0, 0x0003A36F)
+let ReplaceReal = null
+let ReplaceCombat = null
 
 class InsectRemovalInfo implements ModuleInfo {
     author = "Noah Gooder";
@@ -16,12 +16,12 @@ class InsectRemovalInfo implements ModuleInfo {
 }
 
 let myProcessBlock: ProcessBlock<any, any> = {
-    load: {signature: "CREA", overrides: true, filter: filterFunction},
+    load: {signature: "CREA", overrides: false, filter: filterFunction},
     patch: patchRecordProcessing
 };
 
 function filterFunction(RecordPart) {
-    return xelib.GetValue(RecordPart, "DATA\\Type") === "Mutated Insect"
+    return xelib.GetValue(RecordPart, "DATA - \\Type") === "Mutated Insect"
 }
 
 function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
@@ -37,7 +37,10 @@ function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
 }
 
 class PatchInsectoids implements Executor<any, any> {
-
+    initialize = (a,b) => {
+        ReplaceReal = xelib.GetRecord(0, 0x0009FAFA)
+        ReplaceCombat = xelib.GetRecord(0, 0x0003A36F)
+    }
     process = [myProcessBlock];
 
 }
