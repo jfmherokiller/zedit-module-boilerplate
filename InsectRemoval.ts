@@ -1,7 +1,8 @@
 /* global ngapp, xelib, modulePath */
 import {Executor, Helpers, ModuleInfo, Patcher, ProcessBlock} from "@zedit/upf";
 //let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
-let ReplaceReal = xelib.GetRecord(0,0x0009FAFA)
+let ReplaceReal = xelib.GetRecord(0, 0x0009FAFA)
+
 class InsectRemovalInfo implements ModuleInfo {
     author = "Noah Gooder";
     name = "InsectsRemoval"
@@ -12,35 +13,36 @@ class InsectRemovalInfo implements ModuleInfo {
     description = "Replace Insects with other parts"
 }
 
-let myProcessBlock:ProcessBlock<any, any> = {
-    load:{signature:"CREA",overrides: true,filter:filterFunction},
-    patch:patchRecordProcessing
+let myProcessBlock: ProcessBlock<any, any> = {
+    load: {signature: "CREA", overrides: true, filter: filterFunction},
+    patch: patchRecordProcessing
 };
 
 function filterFunction(RecordPart) {
     return xelib.GetValue(RecordPart, "DATA\\Type") === "Mutated Insect"
 }
 
-function patchRecordProcessing(RecordPart, HelperParts:Helpers) {
+function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
     try {
-        xelib.SetLinksTo(RecordPart,ReplaceReal,"TPLT");
+        xelib.SetLinksTo(RecordPart, ReplaceReal, "TPLT");
         //xelib.SetValue(RecordPart,"TPLT",ReplacementPart); this code works but will quickly throw errors
-        xelib.SetFlag(RecordPart,"ACBS - Configuration\\Template Flags","Use Model/Animation",true);
+        xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
     } catch (e) {
         HelperParts.logMessage(e);
     }
 }
 
-class PatchInsectoids implements Executor<any, any>{
+class PatchInsectoids implements Executor<any, any> {
 
     process = [myProcessBlock];
 
 }
-class InsectRemoval implements Patcher<any, any>{
 
-    gameModes= [xelib.gmFNV]
+class InsectRemoval implements Patcher<any, any> {
+
+    gameModes = [xelib.gmFNV]
     info: ModuleInfo = new InsectRemovalInfo;
-    settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} }
+    settings = {label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {}}
     execute = new PatchInsectoids
 
 }
