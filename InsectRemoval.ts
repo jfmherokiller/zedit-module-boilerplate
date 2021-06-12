@@ -21,7 +21,9 @@ let myProcessBlock: ProcessBlock<any, any> = {
 };
 
 function filterFunction(RecordPart) {
-    return xelib.GetValue(RecordPart, "DATA - \\Type") === "Mutated Insect"
+    let MutatedInsectCheck = xelib.GetValue(RecordPart, "DATA - \\Type") === "Mutated Insect";
+    let InventoryFix = xelib.GetFlag(RecordPart,"ACBS - Configuration\\Template Flags","Use Inventory")
+    return MutatedInsectCheck && !InventoryFix
 }
 
 function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
@@ -32,7 +34,10 @@ function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
         //xelib.SetValue(RecordPart,"TPLT",ReplacementPart); this code works but will quickly throw errors
         xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
     } catch (e) {
-        HelperParts.logMessage(e);
+        HelperParts.logMessage("Woopsie");
+        HelperParts.logMessage(e.name);
+        HelperParts.logMessage(e.message);
+        HelperParts.logMessage(e.stack);
     }
 }
 
