@@ -3,7 +3,7 @@ import {Executor, Helpers, ModuleInfo, Patcher, ProcessBlock} from "@zedit/upf";
 //let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
 let ReplaceReal = xelib.GetRecord(0,0x0009FAFA)
 class InsectRemovalInfo implements ModuleInfo {
-    author = "NoahGooder";
+    author = "Noah Gooder";
     name = "InsectsRemoval"
     id = "InsectRemoval-Noah-1"
     version = "1.0"
@@ -40,7 +40,7 @@ class InsectRemoval implements Patcher<any, any>{
 
     gameModes= [xelib.gmFNV]
     info: ModuleInfo = new InsectRemovalInfo;
-    settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {},controler:(ass) => {} }
+    settings = { label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {} }
     execute = new PatchInsectoids
 
 }
