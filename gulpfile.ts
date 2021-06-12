@@ -51,11 +51,6 @@ function ApplyChanges() {
             .pipe(include())
             .on('error', console.log)
             .pipe(gulp.dest('dist')),
-        gulp.src('InsectRemoval.js')
-            .pipe(include())
-            .on('error', console.log)
-            .pipe(gulp.dest('dist')),
-
         gulp.src('partials/*.html')
             .pipe(gulp.dest('dist/partials')),
 
