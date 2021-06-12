@@ -1,7 +1,9 @@
 /* global ngapp, xelib, modulePath */
 import {Executor, Helpers, ModuleInfo, Patcher, ProcessBlock} from "@zedit/upf";
 //let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
+//get the ghoul record
 let ReplaceReal = xelib.GetRecord(0, 0x0009FAFA)
+let ReplaceCombat = xelib.GetRecord(0, 0x0003A36F)
 
 class InsectRemovalInfo implements ModuleInfo {
     author = "Noah Gooder";
@@ -24,7 +26,9 @@ function filterFunction(RecordPart) {
 
 function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
     try {
+        //replace template with ghoul to make use of the model/animation
         xelib.SetLinksTo(RecordPart, ReplaceReal, "TPLT");
+        xelib.SetLinksTo(RecordPart,ReplaceCombat,"ZNAM");
         //xelib.SetValue(RecordPart,"TPLT",ReplacementPart); this code works but will quickly throw errors
         xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
     } catch (e) {
