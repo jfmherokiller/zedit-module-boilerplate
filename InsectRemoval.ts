@@ -38,6 +38,7 @@ function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
         HelperParts.logMessage(e.name);
         HelperParts.logMessage(e.message);
         HelperParts.logMessage(e.stack);
+        HelperParts.logMessage(xelib.ElementToJSON(RecordPart))
     }
 }
 

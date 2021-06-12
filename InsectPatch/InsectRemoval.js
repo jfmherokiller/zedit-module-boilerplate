@@ -18,7 +18,9 @@ let myProcessBlock = {
     patch: patchRecordProcessing
 };
 function filterFunction(RecordPart) {
-    return xelib.GetValue(RecordPart, "DATA - \\Type") === "Mutated Insect";
+    let MutatedInsectCheck = xelib.GetValue(RecordPart, "DATA - \\Type") === "Mutated Insect";
+    let InventoryFix = xelib.GetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Inventory");
+    return MutatedInsectCheck && !InventoryFix;
 }
 function patchRecordProcessing(RecordPart, HelperParts) {
     try {
@@ -29,7 +31,11 @@ function patchRecordProcessing(RecordPart, HelperParts) {
         xelib.SetFlag(RecordPart, "ACBS - Configuration\\Template Flags", "Use Model/Animation", true);
     }
     catch (e) {
-        HelperParts.logMessage(e);
+        HelperParts.logMessage("Woopsie");
+        HelperParts.logMessage(e.name);
+        HelperParts.logMessage(e.message);
+        HelperParts.logMessage(e.stack);
+        HelperParts.logMessage(xelib.ElementToJSON(RecordPart));
     }
 }
 class PatchInsectoids {
