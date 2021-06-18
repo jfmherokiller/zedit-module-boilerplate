@@ -1,5 +1,7 @@
 node_modules/
 .idea/
+dist/**
 *.zip
-/**.map
+*.map
 InsectRemoval.js
+gulpfile.js

@@ -24,13 +24,13 @@ gulp.task('clean', function() {
 
 gulp.task('build', gulp.series('clean', ApplyChanges));
 function FinalizeInsectRemovalMod() {
-    let InsectJs = gulp.src("InsectRemoval.ts").pipe(ts({
+    let InsectJs = gulp.src("src/InsectPatch/InsectRemoval.ts").pipe(ts({
         module: "es2020",
         target: "es2020",
         sourceMap: true,
         moduleResolution: "Node",
         allowSyntheticDefaultImports: true}
-    )).pipe(replace("export {};","")).pipe(gulp.dest("InsectPatch/"))
+    )).pipe(replace("export {};","")).pipe(gulp.dest("dist/InsectPatch/"))
     let Modulecode = JSON.stringify({
         "id": "InsectReplacement",
         "name": "Insect Replacement",
@@ -41,7 +41,7 @@ function FinalizeInsectRemovalMod() {
         "description": "Insect Replacer",
         "moduleLoader": "UPF"
     });
-    let ModulePart = gfile("module.json",Modulecode,{src:true}).pipe(gulp.dest("InsectPatch/"))
+    let ModulePart = gfile("module.json",Modulecode,{src:true}).pipe(gulp.dest("dist/InsectPatch/"))
     return [InsectJs,ModulePart]
 }
 function ApplyChanges() {
