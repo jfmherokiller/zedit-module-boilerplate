@@ -64,7 +64,7 @@ class InsectRemoval implements Patcher<any, any> {
     gameModes = [xelib.gmFNV]
     info: ModuleInfo = new InsectRemovalInfo;
     settings = new PatcherSettings();
-    execute = new PatchInsectoids
+    execute = new PatchInsectoids;
 
 }
 
