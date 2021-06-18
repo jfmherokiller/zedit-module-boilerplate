@@ -1,10 +1,10 @@
 {
-  "author": "Mator",
-  "copyright": "© 2017, Mator",
+  "author": "Noah Gooder",
+  "copyright": "© 2021, Noah Gooder",
   "dependencies": {
     "xelib": "github:z-edit/xelib"
   },
-  "description": "Boilerplate for a zEdit Module.",
+  "description": "Tests and mods for zedit.",
   "devDependencies": {
     "@types/angular": "^1.8.1",
     "@types/gulp": "latest",
@@ -13,13 +13,7 @@
     "@types/node": "latest",
     "@types/xelib": "latest",
     "@types/zedit__upf": "^2.0.0",
-    "@types/dotenv": "^8.2.0",
     "angular": "^1.8.2",
-    "conventional-changelog-cli": "^2.1.1",
-    "conventional-github-releaser": "^3.1.5",
-    "conventional-recommended-bump": "^6.1.0",
-    "dotenv": "^10.0.0",
-    "execa": "^5.1.1",
     "gulp": "^4.0.0",
     "gulp-clean": "^0.3.2",
     "gulp-file": "^0.4.0",

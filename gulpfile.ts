@@ -6,68 +6,10 @@ import * as rename from 'gulp-rename';
 import {ParsedPath} from 'gulp-rename';
 import * as zip from 'gulp-zip';
 import * as ts from 'gulp-typescript';
-import * as gfile from 'gulp-file'
-import conventionalRecommendedBump from "conventional-recommended-bump";
-import conventionalGithubReleaser from "conventional-github-releaser";
-import * as execa from "execa";
-import * as dotenv from "dotenv";
+import * as gfile from 'gulp-file';
 import replace = require("gulp-replace");
 import {promisify} from "util";
 import * as fsprom from 'fs/promises';
-
-// load environment variables
-const result = dotenv.config();
-
-if (result.error) {
-    throw result.error;
-}
-// Conventional Changelog preset
-const preset = 'angular';
-// print output of commands into the terminal
-const stdio = 'inherit';
-
-async function bumpVersion() {
-    // get recommended version bump based on commits
-    const {releaseType} = await promisify(conventionalRecommendedBump)({preset});
-    // bump version without committing and tagging
-    await execa('npm', ['version', releaseType, '--no-git-tag-version'], {
-        stdio,
-    });
-}
-
-async function changelog() {
-    await execa(
-        'npx',
-        [
-            'conventional-changelog',
-            '--preset',
-            preset,
-            '--infile',
-            'CHANGELOG.md',
-            '--same-file',
-        ],
-        {stdio}
-    );
-}
-
-async function commitTagPush() {
-    // even though we could get away with "require" in this case, we're taking the safe route
-    // because "require" caches the value, so if we happen to use "require" again somewhere else
-    // we wouldn't get the current value, but the value of the last time we called "require"
-    const {version} = JSON.parse(await fsprom.readFile('package.json', {encoding: "utf8"}));
-    const commitMsg = `chore: release ${version}`;
-    await execa('git', ['add', '.'], {stdio});
-    await execa('git', ['commit', '--message', commitMsg], {stdio});
-    await execa('git', ['tag', `v${version}`], {stdio});
-    await execa('git', ['push', '--follow-tags'], {stdio});
-}
-function githubRelease(done) {
-    conventionalGithubReleaser(
-        { type: 'oauth', token: process.env.GH_TOKEN },
-        { preset },
-        done
-    );
-}
 
 function getFormattedDate(date: Date) {
     let year = date.getFullYear();
@@ -159,5 +101,5 @@ function ReleaseTask() {
         return path
     }
 }
-gulp.task('release', ReleaseTask);
+gulp.task('release', gulp.series(ReleaseTask));
 exports.default = gulp.series('build','release')
