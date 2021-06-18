@@ -139,7 +139,7 @@ function ApplyChanges() {
     return Promise.all(values);
 }
 
-gulp.task('release', ReleaseTask);
+
 
 function ReleaseTask() {
     let moduleInfo = JSON.parse(fs.readFileSync('module.json', {encoding: "utf8"})),
@@ -159,5 +159,5 @@ function ReleaseTask() {
         return path
     }
 }
-
+gulp.task('release', ReleaseTask);
 exports.default = gulp.series('build','release')
