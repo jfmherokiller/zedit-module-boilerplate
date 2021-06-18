@@ -5,3 +5,4 @@ dist/**
 *.map
 InsectRemoval.js
 gulpfile.js
+.env
