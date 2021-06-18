@@ -8,8 +8,6 @@ import * as zip from 'gulp-zip';
 import * as ts from 'gulp-typescript';
 import * as gfile from 'gulp-file';
 import replace = require("gulp-replace");
-import {promisify} from "util";
-import * as fsprom from 'fs/promises';
 
 function getFormattedDate(date: Date) {
     let year = date.getFullYear();
