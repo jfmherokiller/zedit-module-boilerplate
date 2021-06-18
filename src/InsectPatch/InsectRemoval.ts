@@ -45,19 +45,25 @@ function patchRecordProcessing(RecordPart, HelperParts: Helpers) {
 }
 
 class PatchInsectoids implements Executor<any, any> {
-    initialize = (a,b) => {
+    initialize() {
         ReplaceReal = xelib.GetRecord(0, 0x0009FAFA)
         ReplaceCombat = xelib.GetRecord(0, 0x0003A36F)
     }
+
     process = [myProcessBlock];
 
 }
-
+class PatcherSettings {
+    label = "InsectsRemove";
+    hide = true;
+    templateUrl= "";
+    defaultSettings= {};
+}
 class InsectRemoval implements Patcher<any, any> {
 
     gameModes = [xelib.gmFNV]
     info: ModuleInfo = new InsectRemovalInfo;
-    settings = {label: "InsectsRemove", hide: true, templateUrl: "", defaultSettings: {}}
+    settings = new PatcherSettings();
     execute = new PatchInsectoids
 
 }
