@@ -1,4 +1,4 @@
-/* global ngapp, xelib, modulePath */
+/* global ngapp, xelib, registerPatcher, patcherUrl */
 import {Executor, Helpers, ModuleInfo, Patcher, ProcessBlock} from "@zedit/upf";
 //let ReplacementPart = "CrFeralGhoul1A \"Feral Ghoul\" [CREA:0009FAFA]"
 //get the ghoul record
