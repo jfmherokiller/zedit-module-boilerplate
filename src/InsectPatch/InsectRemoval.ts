@@ -56,7 +56,7 @@ class PatchInsectoids implements Executor<any, any> {
 class PatcherSettings {
     label = "InsectsRemove";
     hide = true;
-    templateUrl= "";
+    templateUrl= `${patcherUrl}/partials/IReplaceSettings.html`;
     defaultSettings= {};
 }
 class InsectRemoval implements Patcher<any, any> {
