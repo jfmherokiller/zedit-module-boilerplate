@@ -8,7 +8,7 @@ let ReplaceCombat = null
 class InsectRemovalInfo implements ModuleInfo {
     author = "Noah Gooder";
     name = "InsectsRemoval"
-    id = "InsectRemoval-Noah-1"
+    id = "InsectReplacement"
     version = "1.0"
     released = "6/11/2021"
     updated = "6/11/2021"

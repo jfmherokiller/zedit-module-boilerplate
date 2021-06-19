@@ -34,10 +34,6 @@ function FinalizeInsectRemovalMod() {
         moduleResolution: "Node",
         allowSyntheticDefaultImports: true
     };
-    let InsectJs = gulp.src("src/InsectPatch/InsectRemoval.ts").pipe(ts(InsectRTSettings))
-        .pipe(replace("export {};", ""))
-        .pipe(rename((filename)=> {filename.basename= "index"}))
-        .pipe(gulp.dest("dist/InsectPatch/"))
     let Modulecode = JSON.stringify({
         "id": "InsectReplacement",
         "name": "Insect Replacement",
@@ -46,8 +42,15 @@ function FinalizeInsectRemovalMod() {
         "released": `${getFormattedDate(new Date())}`,
         "updated": `${getFormattedDate(new Date())}`,
         "description": "Insect Replacer",
-        "moduleLoader": "UPF"
+        "requires": ["unifiedPatchingFramework"],
+        "moduleLoader": "UPF",
+        "canHotLoad": true
     });
+    let InsectJs = gulp.src("src/InsectPatch/InsectRemoval.ts").pipe(ts(InsectRTSettings))
+        .pipe(replace("export {};", ""))
+        .pipe(rename((filename)=> {filename.basename= "index"}))
+        .pipe(gulp.dest("dist/InsectPatch/"))
+
     let ModulePart = gfile("module.json", Modulecode, {src: true}).pipe(gulp.dest("dist/InsectPatch/"));
     let ModuleSet = gulp.src('partials/InsectPatch/IReplaceSettings.html').pipe(gulp.dest('dist/InsectPatch/partials/'))
     return [InsectJs, ModulePart,ModuleSet]
