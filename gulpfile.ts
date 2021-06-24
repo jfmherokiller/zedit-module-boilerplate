@@ -48,6 +48,7 @@ function FinalizeInsectRemovalMod() {
     });
     let InsectJs = gulp.src("src/InsectPatch/InsectRemoval.ts").pipe(ts(InsectRTSettings))
         .pipe(replace("export {};", ""))
+        .pipe(replace("{ \"a\": \"a\" };",Modulecode))
         .pipe(rename((filename)=> {filename.basename= "index"}))
         .pipe(gulp.dest("dist/InsectPatch/"))
 

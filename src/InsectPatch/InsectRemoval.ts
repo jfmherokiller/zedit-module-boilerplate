@@ -61,8 +61,9 @@ class PatcherSettings {
 }
 class InsectRemoval implements Patcher<any, any> {
 
-    gameModes = [xelib.gmFNV]
-    info: ModuleInfo = new InsectRemovalInfo;
+    gameModes = [xelib.gmFNV];
+    // @ts-ignore
+    info: ModuleInfo = {"a":"a"};
     settings = new PatcherSettings();
     execute = new PatchInsectoids;
 
